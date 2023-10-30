@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_USER=user
+      - POSTGRES_DB=L0
+    ports:
+      - 5432:5432
+    volumes:
+      - ./createDB.sql:/docker-entrypoint-initdb.d/createDB.sql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=noemail@noemail.noemail
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_LISTEN_PORT=6432
+    ports:
+      - 6432:6432
+    depends_on:
+      - postgres
+
+  nats:
+    image: nats-streaming
+    ports:
+      - "4222:4222"
