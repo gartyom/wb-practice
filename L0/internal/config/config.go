@@ -2,7 +2,7 @@ package config
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 )
 
 type Config struct {
@@ -29,7 +29,7 @@ func Get() *Config {
 		panic(err)
 	}
 
-	fmt.Println("Config:\n" + string((jBytes)))
+	log.Println("Config:\n" + string((jBytes)))
 
 	return cfg
 }

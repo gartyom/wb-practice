@@ -1,24 +1,14 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+	"log"
 
-	"github.com/gartyom/wb-pratctice/L0/config"
-	"github.com/gartyom/wb-pratctice/L0/database"
-	"github.com/nats-io/stan.go"
+	"github.com/gartyom/wb-practice/L0/internal/app"
 )
 
 func main() {
-	cfg := config.Get()
 
-	sc, _ := stan.Connect(cfg.StanClusterName, "sub-1")
-
-	database.Connect(cfg)
-
-	sc.Subscribe("orders", func(m *stan.Msg) {
-		fmt.Println("message recieved: " + string(m.Data))
-	})
-
-	http.ListenAndServe("localhost:8000", nil)
+	if err := app.Run(); err != nil {
+		log.Fatal(err)
+	}
 }
