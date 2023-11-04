@@ -18,3 +18,8 @@ func (r *orderRepository) GetById(id string) ([]byte, error) {
 	data, err := r.cache.GetById(id)
 	return data, err
 }
+
+func (r *orderRepository) Save(id string, orderData []byte) error {
+	// implement cache and db save method
+	return nil
+}

@@ -1,7 +1,6 @@
 package app
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gartyom/wb-practice/L0/internal/cache"
@@ -9,19 +8,12 @@ import (
 	"github.com/gartyom/wb-practice/L0/internal/controller"
 	"github.com/gartyom/wb-practice/L0/internal/repository"
 	"github.com/gartyom/wb-practice/L0/internal/service"
+	"github.com/gartyom/wb-practice/L0/internal/subscriber"
 	"github.com/gartyom/wb-practice/L0/pkg/database"
-	"github.com/nats-io/stan.go"
 )
 
 func Run() error {
 	cfg := config.Get()
-
-	sc, err := stan.Connect(cfg.StanClusterName, "order-reciever")
-
-	if err != nil {
-		return err
-	}
-
 	db := database.Connect(cfg)
 	cch := cache.New()
 	cch.Recover(db)
@@ -29,9 +21,7 @@ func Run() error {
 	serv := service.New(repo)
 	controller.New(serv)
 
-	sc.Subscribe("orders", func(m *stan.Msg) {
-		fmt.Println("message recieved: " + string(m.Data))
-	})
+	subscriber.Init(cfg.StanClusterName, serv.Order)
 
 	http.ListenAndServe("localhost:8000", nil)
 	return nil

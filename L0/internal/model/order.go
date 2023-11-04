@@ -1,10 +1,6 @@
 package model
 
 type Order struct {
-	Uid  string
-	Data []byte
-}
-
-func (o *Order) Validate() error {
-	return nil
+	Data     []byte
+	OrderUID string `json:"order_uid"`
 }

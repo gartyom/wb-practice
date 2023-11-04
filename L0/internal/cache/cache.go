@@ -3,8 +3,6 @@ package cache
 import (
 	"database/sql"
 	"errors"
-
-	"github.com/gartyom/wb-practice/L0/internal/model"
 )
 
 type Cache struct {
@@ -23,13 +21,14 @@ func (cch *Cache) Recover(db *sql.DB) error {
 		return err
 	}
 	defer rows.Close()
+	var uid string
+	var data []byte
 	for rows.Next() {
-		var order model.Order
-		if err := rows.Scan(&order.Uid, &order.Data); err != nil {
+		if err := rows.Scan(&uid, &data); err != nil {
 			return err
 		}
 
-		cch.OrderData[order.Uid] = order.Data
+		cch.OrderData[uid] = data
 	}
 	if err = rows.Err(); err != nil {
 		return err
