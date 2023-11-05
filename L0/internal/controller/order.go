@@ -7,16 +7,16 @@ import (
 	"github.com/gartyom/wb-practice/L0/internal/service"
 )
 
+type OrderController struct {
+	service service.OrderServiceInterface
+}
+
 func NewOrderController(service service.OrderServiceInterface) {
 	cnt := &OrderController{
 		service: service,
 	}
 
 	http.HandleFunc("/order/", cnt.OrderByUID)
-}
-
-type OrderController struct {
-	service service.OrderServiceInterface
 }
 
 func (cnt *OrderController) OrderByUID(w http.ResponseWriter, r *http.Request) {

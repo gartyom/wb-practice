@@ -3,7 +3,7 @@ package app
 import (
 	"net/http"
 
-	"github.com/gartyom/wb-practice/L0/internal/cache"
+	"github.com/gartyom/wb-practice/L0/internal/cacher"
 	"github.com/gartyom/wb-practice/L0/internal/config"
 	"github.com/gartyom/wb-practice/L0/internal/controller"
 	"github.com/gartyom/wb-practice/L0/internal/repository"
@@ -15,13 +15,18 @@ import (
 func Run() error {
 	cfg := config.Get()
 	db := database.Connect(cfg)
-	cch := cache.New()
-	cch.Recover(db)
-	repo := repository.New(cch)
-	serv := service.New(repo)
+	cchr := cacher.New()
+	repo := repository.New(db)
+	serv := service.New(repo, cchr)
 	controller.New(serv)
 
-	subscriber.Init(cfg.StanClusterName, serv.Order)
+	err := serv.Order.Recover()
+	if err != nil {
+		return err
+	}
+
+	sub := subscriber.New(cfg.StanClusterName, serv.Order)
+	sub.Init()
 
 	http.ListenAndServe("localhost:8000", nil)
 	return nil

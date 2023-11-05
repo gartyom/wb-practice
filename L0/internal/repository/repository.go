@@ -1,13 +1,17 @@
 package repository
 
-import "github.com/gartyom/wb-practice/L0/internal/cache"
+import (
+	"database/sql"
+
+	"github.com/gartyom/wb-practice/L0/internal/repository/postgres"
+)
 
 type Repository struct {
-	Order OrderRepositoryInteface
+	Order postgres.PostgresOrderRepositoryInteface
 }
 
-func New(cch *cache.Cache) *Repository {
+func New(db *sql.DB) *Repository {
 	return &Repository{
-		Order: NewOrderRepository(cch),
+		Order: postgres.NewOrderRepository(db),
 	}
 }

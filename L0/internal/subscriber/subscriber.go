@@ -10,15 +10,19 @@ import (
 )
 
 type subscriber struct {
-	srv service.OrderServiceInterface
+	clusterName string
+	srv         service.OrderServiceInterface
 }
 
-func Init(clusterName string, srv service.OrderServiceInterface) error {
-	sub := &subscriber{
-		srv: srv,
+func New(clusterName string, srv service.OrderServiceInterface) *subscriber {
+	return &subscriber{
+		clusterName: clusterName,
+		srv:         srv,
 	}
+}
 
-	sc, err := stan.Connect(clusterName, "order-reciever")
+func (sub *subscriber) Init() error {
+	sc, err := stan.Connect(sub.clusterName, "order-reciever")
 	if err != nil {
 		return err
 	}
