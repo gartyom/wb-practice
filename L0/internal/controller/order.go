@@ -11,7 +11,7 @@ type OrderController struct {
 	service service.OrderServiceInterface
 }
 
-func NewOrderController(service service.OrderServiceInterface) {
+func InitOrderController(service service.OrderServiceInterface) {
 	cnt := &OrderController{
 		service: service,
 	}

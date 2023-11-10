@@ -18,7 +18,7 @@ func Run() error {
 	cchr := cacher.New()
 	repo := repository.New(db)
 	serv := service.New(repo, cchr)
-	controller.New(serv)
+	controller.HandleRequests(serv)
 
 	err := serv.Order.Recover()
 	if err != nil {
