@@ -3,20 +3,49 @@ package task5
 import (
 	"context"
 	"fmt"
+	"sync"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 func Run() {
 	fmt.Println("Task 5:")
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 	defer cancel()
 
-	doWork(ctx)
+	ch := make(chan string)
+
+	go Writer(ctx, ch)
+
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go Reader(ch, &wg)
+
+	wg.Wait()
 
 }
 
-func doWork(ctx context.Context) {
-	if ctx.Err() == context.DeadlineExceeded {
-		return
+func Writer(ctx context.Context, ch chan string) {
+	for true {
+		select {
+		case <-ctx.Done():
+			close(ch)
+			return
+		default:
+			Write(ch)
+		}
 	}
+}
+
+func Reader(ch chan string, wg *sync.WaitGroup) {
+	for msg := range ch {
+		fmt.Println(msg)
+	}
+	wg.Done()
+}
+
+func Write(ch chan<- string) {
+	ch <- uuid.New().String()
+	time.Sleep(100 * time.Millisecond)
 }
