@@ -11,18 +11,12 @@ func Run() {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 
-	select {
-	case <-ctx.Done():
-		return
-	default:
-		doWork(ctx)
-	}
+	doWork(ctx)
 
 }
 
 func doWork(ctx context.Context) {
-	for true {
-		fmt.Println("123123123")
-		time.Sleep(1 * time.Second)
+	if ctx.Err() == context.DeadlineExceeded {
+		return
 	}
 }
