@@ -21,7 +21,7 @@ func makeSubsets(str string) [][]string {
 	p := len(set) - 1 // количество элементов в собственном множестве
 	for p > 0 {
 
-		for i := 0; i < len(set); i++ { // проходим все елементы
+		for i := 0; i < len(set); i++ { // проходим все элементы
 			var subset []string
 			for j := i; j < i+p; j++ { // составляем собственное множество
 				index := j
