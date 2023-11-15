@@ -7,15 +7,24 @@ import (
 
 func Run() {
 	fmt.Println("Task 8:")
-	var number int64 = 32
-	newNumber := setBit(number, 63)
+	var number int64 = -16123
+	newNumber := setBit(number, 4)
 
-	fmt.Println(strconv.FormatInt(number, 2))
-	fmt.Println(strconv.FormatInt(newNumber, 2))
-	fmt.Println(number)
-	fmt.Println(newNumber)
+	fmt.Println(strconv.FormatInt(number, 2), number)
+	fmt.Println(strconv.FormatInt(newNumber, 2), newNumber)
 }
 
 func setBit(n int64, pos uint) int64 {
-	return n | (1 << pos)
+	if pos == 63 {
+		return -n
+	}
+
+	if pos >= 0 && pos < 63 {
+		if n < 0 {
+			return -(-n ^ (1 << pos))
+		}
+		return n ^ (1 << pos)
+	}
+
+	return n
 }

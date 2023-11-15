@@ -8,7 +8,7 @@ import (
 )
 
 func Run() {
-	fmt.Println("Task 6")
+	fmt.Println("Task 6:")
 	var wg sync.WaitGroup
 	signalChannel(&wg)
 	closeChannel(&wg)
