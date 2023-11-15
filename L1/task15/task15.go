@@ -7,6 +7,7 @@ import (
 var justString string
 
 func Run() {
+	fmt.Println()
 	fmt.Println("Task 15:")
 	s := "фвыощфышгваорфголаjlhasdfioujhkashdf"
 	someFunc1(s)

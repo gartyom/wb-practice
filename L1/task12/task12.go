@@ -6,6 +6,7 @@ import (
 )
 
 func Run() {
+	fmt.Println()
 	fmt.Println("Task 12:")
 	str := "cat, cat, dog, cat, tree"
 	subs := makeSubsets(str)

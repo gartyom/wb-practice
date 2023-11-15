@@ -11,10 +11,12 @@ import (
 )
 
 func Run() {
+	fmt.Println()
+	fmt.Println("Task 4:")
+
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGINT)
 
-	fmt.Println("Task 4:")
 	numWorkers := 5
 	dataChan := make(chan string)
 	var wg sync.WaitGroup

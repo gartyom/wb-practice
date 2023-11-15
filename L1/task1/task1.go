@@ -14,6 +14,7 @@ type Action struct {
 }
 
 func Run() {
+	fmt.Println()
 	fmt.Println("Task 1:")
 	h := &Action{}
 	h.Walk()

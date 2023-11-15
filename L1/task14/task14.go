@@ -6,6 +6,7 @@ import (
 )
 
 func Run() {
+	fmt.Println()
 	fmt.Println("Task 14:")
 	c := make(chan string)
 	i := 0

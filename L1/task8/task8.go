@@ -6,6 +6,7 @@ import (
 )
 
 func Run() {
+	fmt.Println()
 	fmt.Println("Task 8:")
 	var number int64 = -16123
 	newNumber := setBit(number, 4)

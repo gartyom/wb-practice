@@ -3,6 +3,7 @@ package task11
 import "fmt"
 
 func Run() {
+	fmt.Println()
 	fmt.Println("Task 11:")
 	first := []int{1, 14, 12, 22, 5, 1123, 56}
 	second := []int{1, 12, 53, 5, 11, 0, 7, -1}

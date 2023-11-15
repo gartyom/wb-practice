@@ -6,6 +6,7 @@ import (
 )
 
 func Run() {
+	fmt.Println()
 	fmt.Println("Task 9:")
 	nums := make(chan int)
 	numsSquare := make(chan int)

@@ -6,6 +6,7 @@ import (
 )
 
 func Run() {
+	fmt.Println()
 	fmt.Println("Task 3:")
 	array := []int{2, 4, 6, 8, 10}
 	var sum int

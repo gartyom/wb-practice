@@ -10,7 +10,12 @@ import (
 	"github.com/gartyom/wb-practice/L1/task15"
 	"github.com/gartyom/wb-practice/L1/task16"
 	"github.com/gartyom/wb-practice/L1/task17"
+	"github.com/gartyom/wb-practice/L1/task18"
+	"github.com/gartyom/wb-practice/L1/task19"
 	"github.com/gartyom/wb-practice/L1/task2"
+	"github.com/gartyom/wb-practice/L1/task20"
+	"github.com/gartyom/wb-practice/L1/task21"
+	"github.com/gartyom/wb-practice/L1/task22"
 	"github.com/gartyom/wb-practice/L1/task3"
 	"github.com/gartyom/wb-practice/L1/task5"
 	"github.com/gartyom/wb-practice/L1/task6"
@@ -35,4 +40,9 @@ func main() {
 	task15.Run()
 	task16.Run()
 	task17.Run()
+	task18.Run()
+	task19.Run()
+	task20.Run()
+	task21.Run()
+	task22.Run()
 }

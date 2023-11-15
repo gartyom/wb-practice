@@ -3,6 +3,7 @@ package task13
 import "fmt"
 
 func Run() {
+	fmt.Println()
 	fmt.Println("Task 13:")
 	array := []int{1, 2}
 	fmt.Println("array: ", array)

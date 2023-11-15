@@ -3,6 +3,7 @@ package task16
 import "fmt"
 
 func Run() {
+	fmt.Println()
 	fmt.Println("Task 16:")
 	arr := []int{1, 2, 345, 12, 5, 2, 1, 123, 5, 1, 5, 2, 6, 8, 12}
 	fmt.Println(arr)
