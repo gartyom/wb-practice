@@ -57,7 +57,7 @@ func (cmd *saveModel2Command) Undo() {
 	cmd.db.deleteModel1(cmd.model)
 }
 
-func commandExmaple() {
+func commandExample() {
 	cmdList := []command{}
 	db := &database{}
 
