@@ -36,7 +36,7 @@ func (f *facade) AddNew(name string) {
 	f.s2.Notify()
 }
 
-func testFacade() {
+func facadeExample() {
 	var f facade
 	f.AddNew("asd")
 }

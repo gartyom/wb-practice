@@ -55,7 +55,7 @@ func (r *rap) accept(v MusicVisitor) {
 	v.VisitRap()
 }
 
-func visitor() {
+func visitorExample() {
 	musicLib := []Music{new(rock), new(rock), new(pop), new(rap)}
 
 	v := &musicCounter{

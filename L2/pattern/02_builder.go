@@ -1,7 +1,6 @@
 package pattern
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -20,8 +19,8 @@ type AbstractBuilder interface {
 }
 
 type obj struct {
-	objHeight int
-	objWidth  int
+	partA int
+	partB int
 }
 
 type builder1 struct {
@@ -29,11 +28,11 @@ type builder1 struct {
 }
 
 func (b *builder1) buildPartA() {
-	b.o.objHeight = 1
+	b.o.partA = 1
 }
 
 func (b *builder1) buildPartB() {
-	b.o.objWidth = 2
+	b.o.partB = 2
 }
 
 func (b *builder1) GetObject() *obj {
@@ -50,7 +49,7 @@ func (d *director) Construct(b AbstractBuilder) *obj {
 	return b.GetObject()
 }
 
-func build() {
+func builderExmaple1() {
 	var b builder1
 
 	d := director{}
@@ -60,7 +59,7 @@ func build() {
 
 // strings.bulder является примером паттерна builder, но без директора
 
-func test() {
+func builderExample2() {
 	var s strings.Builder
 	s.WriteByte(byte(0))
 	s.WriteString("a")
