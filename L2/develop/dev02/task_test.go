@@ -46,11 +46,11 @@ func TestIsEscape(t *testing.T) {
 }
 
 type GetWholeNumberTest struct {
-	ogIn     int
-	iIn      []rune
-	hPocRune int
-	hErr     int
-	out3     error
+	ogIn      int
+	iIn       []rune
+	wNum      int
+	wProcRune int
+	wErr      error
 }
 
 func TestGetWholeNumber(t *testing.T) {
@@ -60,9 +60,9 @@ func TestGetWholeNumber(t *testing.T) {
 	}
 
 	for _, test := range testTable {
-		hPocRune, hErr, out3 := getWholeNumber(test.ogIn, test.iIn)
-		if hPocRune != test.hPocRune || hErr != test.hErr || !assertErrors(out3, test.out3) {
-			t.Errorf("\nwant %v, %v, %v \nexpected: %v, %v, %v", hPocRune, hErr, out3, test.hPocRune, test.hErr, test.out3)
+		hNum, hProcRune, hErr := getWholeNumber(test.ogIn, test.iIn)
+		if hProcRune != test.wProcRune || hNum != test.wNum || !assertErrors(hErr, test.wErr) {
+			t.Errorf("\nwant %v, %v, %v \nexpected: %v, %v, %v", hProcRune, hErr, hNum, test.wProcRune, test.wErr, test.wNum)
 		}
 	}
 }
