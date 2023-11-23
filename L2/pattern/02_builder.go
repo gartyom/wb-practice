@@ -79,4 +79,3 @@ func builderExample2() {
 
 // -
 // Отдельный builder для разных объектов
-//
