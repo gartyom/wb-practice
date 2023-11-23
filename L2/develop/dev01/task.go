@@ -20,12 +20,14 @@ import (
 */
 
 func main() {
+	printTime()
+}
+
+func printTime() {
 	time, err := ntp.Time("pool.ntp.org")
 	if err != nil {
 		os.Stderr.Write([]byte(err.Error()))
 		os.Exit(13)
 	}
-
 	fmt.Println(time)
-
 }
