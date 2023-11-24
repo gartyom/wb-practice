@@ -1,7 +1,6 @@
 package file
 
 import (
-	"errors"
 	"math/big"
 	"os"
 	"sort"
@@ -45,6 +44,20 @@ type File struct {
 	Cfg      *config.Config
 }
 
+func NewFile(cfg *config.Config) (*File, error) {
+	err := validate(cfg.FilePath)
+	if err != nil {
+		return nil, err
+	}
+
+	fData, err := read(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return &File{FileData: fData, Cfg: cfg}, nil
+}
+
 func (f *File) Less(i, j int) (answer bool) {
 	first := f.FileData[i]
 	second := f.FileData[j]
@@ -73,20 +86,6 @@ func (f *File) Swap(i, j int) {
 	f.FileData[i], f.FileData[j] = f.FileData[j], f.FileData[i]
 }
 
-func NewFile(cfg *config.Config) (*File, error) {
-	err := validate(cfg.FilePath)
-	if err != nil {
-		return nil, err
-	}
-
-	fData, err := read(cfg)
-	if err != nil {
-		return nil, err
-	}
-
-	return &File{FileData: fData, Cfg: cfg}, nil
-}
-
 func validate(fp string) error {
 	_, err := os.Stat(fp)
 	return err
@@ -113,31 +112,4 @@ func read(cfg *config.Config) ([][]string, error) {
 func Sort(f *File) (*File, error) {
 	sort.Sort(f)
 	return f, nil
-}
-
-func splitString(str string, sep rune, k int) ([]string, error) {
-	if k <= 0 {
-		return nil, errors.New("k should be >= 1")
-	}
-
-	if k == 1 {
-		return []string{"", str}, nil
-	}
-
-	var first strings.Builder
-	var second strings.Builder
-	k--
-	for i, r := range str {
-		if r == rune(sep) {
-			k--
-		}
-		if k == 0 {
-			first.WriteString(str[0:i])
-			second.WriteString(str[i+1:])
-			return []string{first.String(), second.String()}, nil
-		}
-
-	}
-
-	return []string{str, ""}, nil
 }
