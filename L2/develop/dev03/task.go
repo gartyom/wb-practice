@@ -1,5 +1,11 @@
 package main
 
+import (
+	"github.com/gartyom/wb-practice/L2/develop/dev03/internal/app"
+	"github.com/gartyom/wb-practice/L2/develop/dev03/internal/pkg/config"
+	"github.com/gartyom/wb-practice/L2/develop/dev03/pkg/errs"
+)
+
 /*
 === Утилита sort ===
 
@@ -26,5 +32,9 @@ package main
 */
 
 func main() {
+	cfg, err := config.Get()
+	errs.Check(err)
 
+	err = app.Run(cfg)
+	errs.Check(err)
 }
