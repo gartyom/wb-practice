@@ -1,23 +1,9 @@
 package main
 
 import (
-	"errors"
 	"strings"
 	"testing"
 )
-
-func assertErrors(err1 error, err2 error) bool {
-	if err1 == nil && err2 != nil {
-		return false
-	}
-
-	if err1 != nil && err2 == nil {
-		return false
-	}
-
-	return true
-
-}
 
 func TestIsDigit(t *testing.T) {
 	testTable := map[rune]bool{
@@ -50,18 +36,18 @@ type GetWholeNumberTest struct {
 	iIn       []rune
 	wNum      int
 	wProcRune int
-	wErr      error
+	wErr      bool
 }
 
 func TestGetWholeNumber(t *testing.T) {
 	testTable := []GetWholeNumberTest{
-		{0, []rune("15273"), 15273, 5, nil},
-		{0, []rune("0"), 0, 1, nil},
+		{0, []rune("15273"), 15273, 5, false},
+		{0, []rune("0"), 0, 1, false},
 	}
 
 	for _, test := range testTable {
 		hNum, hProcRune, hErr := getWholeNumber(test.ogIn, test.iIn)
-		if hProcRune != test.wProcRune || hNum != test.wNum || !assertErrors(hErr, test.wErr) {
+		if hProcRune != test.wProcRune || hNum != test.wNum || (hErr != nil) != test.wErr {
 			t.Errorf("\nwant %v, %v, %v \nexpected: %v, %v, %v", hProcRune, hErr, hNum, test.wProcRune, test.wErr, test.wNum)
 		}
 	}
@@ -72,22 +58,22 @@ type handleRuneTest struct {
 	iIn      int
 	resIn    *strings.Builder
 	wPocRune int
-	wErr     error
+	wErr     bool
 	wBuilder string
 }
 
 func TestHandleDefault(t *testing.T) {
 	var builder strings.Builder
 	testTable := []handleRuneTest{
-		{[]rune("asd"), 0, &builder, 1, nil, "a"},
-		{[]rune("asd"), 1, &builder, 1, nil, "s"},
-		{[]rune("asd"), 2, &builder, 1, nil, "d"},
+		{[]rune("asd"), 0, &builder, 1, false, "a"},
+		{[]rune("asd"), 1, &builder, 1, false, "s"},
+		{[]rune("asd"), 2, &builder, 1, false, "d"},
 	}
 
 	for _, test := range testTable {
 		test.resIn.Reset()
 		hPocRune, hErr := handleDefault(test.ogIn, test.iIn, test.resIn)
-		if hPocRune != test.wPocRune || !assertErrors(hErr, test.wErr) || test.wBuilder != test.resIn.String() {
+		if hPocRune != test.wPocRune || (hErr != nil) != test.wErr {
 			t.Errorf("\nhave: %v, %v, %v \nwant: %v, %v, %v", hPocRune, hErr, test.resIn.String(), test.wPocRune, test.wErr, test.wBuilder)
 		}
 	}
@@ -97,14 +83,14 @@ func TestHandleDefault(t *testing.T) {
 func TestHandleDigit(t *testing.T) {
 	var builder strings.Builder
 	testTable := []handleRuneTest{
-		{[]rune("a4"), 1, &builder, 1, nil, "aaa"},
-		{[]rune("a10"), 1, &builder, 2, nil, "aaaaaaaaa"},
+		{[]rune("a4"), 1, &builder, 1, false, "aaa"},
+		{[]rune("a10"), 1, &builder, 2, false, "aaaaaaaaa"},
 	}
 
 	for _, test := range testTable {
 		test.resIn.Reset()
 		hPocRune, hErr := handleDigit(test.ogIn, test.iIn, test.resIn)
-		if hPocRune != test.wPocRune || !assertErrors(hErr, test.wErr) || test.wBuilder != test.resIn.String() {
+		if hPocRune != test.wPocRune || (hErr != nil) != test.wErr {
 			t.Errorf("\nhave: %v, %v, %v \nwant: %v, %v, %v", hPocRune, hErr, test.resIn.String(), test.wPocRune, test.wErr, test.wBuilder)
 		}
 	}
@@ -113,14 +99,14 @@ func TestHandleDigit(t *testing.T) {
 
 func TestHandleEscape(t *testing.T) {
 	testTable := []handleRuneTest{
-		{[]rune("\\4"), 0, new(strings.Builder), 2, nil, "4"},
-		{[]rune("\\\\"), 0, new(strings.Builder), 2, nil, "\\"},
-		{[]rune("\\"), 0, new(strings.Builder), 0, errors.New(""), ""},
+		{[]rune("\\4"), 0, new(strings.Builder), 2, false, "4"},
+		{[]rune("\\\\"), 0, new(strings.Builder), 2, false, "\\"},
+		{[]rune("\\"), 0, new(strings.Builder), 0, true, ""},
 	}
 
 	for _, test := range testTable {
 		hPocRune, hErr := handleEscape(test.ogIn, test.iIn, test.resIn)
-		if hPocRune != test.wPocRune || !assertErrors(hErr, test.wErr) || test.wBuilder != test.resIn.String() {
+		if hPocRune != test.wPocRune || (hErr != nil) != test.wErr {
 			t.Errorf("\nhave: %v, %v, %v \nwant: %v, %v, %v", hPocRune, hErr, test.resIn.String(), test.wPocRune, test.wErr, test.wBuilder)
 		}
 	}
@@ -128,22 +114,22 @@ func TestHandleEscape(t *testing.T) {
 }
 
 type unpackStringTest struct {
-	strIn  string
-	wStr   string
-	wError error
+	strIn string
+	wStr  string
+	wErr  bool
 }
 
 func TestUnpackString(t *testing.T) {
 	testTable := []unpackStringTest{
-		{"aa4\\5s", "aaaaa5s", nil},
-		{"aa1s\\", "", errors.New("")},
-		{"aa4\\\\5s", "aaaaa\\\\\\\\\\s", nil},
+		{"aa4\\5s", "aaaaa5s", false},
+		{"aa1s\\", "", true},
+		{"aa4\\\\5s", "aaaaa\\\\\\\\\\s", false},
 	}
 
 	for _, test := range testTable {
 		hStr, hErr := unpackString(test.strIn)
-		if hStr != test.wStr || !assertErrors(hErr, test.wError) {
-			t.Errorf("\nhave: %v, %v \nwant: %v, %v", hStr, hErr, test.wStr, test.wError)
+		if hStr != test.wStr || (hErr != nil) != test.wErr {
+			t.Errorf("\nhave: %v, %v \nwant: %v, %v", hStr, hErr, test.wStr, test.wErr)
 		}
 	}
 }
