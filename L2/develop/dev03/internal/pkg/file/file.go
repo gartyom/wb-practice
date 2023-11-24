@@ -101,7 +101,6 @@ func read(cfg *config.Config) ([][]string, error) {
 
 	// Converting bytes to string
 	fileString := string(fileBytes)
-	// 	Splitting each string into two parts
 	var fData [][]string
 	for _, line := range strings.Split(fileString, "\n") {
 		str := strings.Split(line, " ")

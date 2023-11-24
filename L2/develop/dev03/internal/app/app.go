@@ -13,8 +13,6 @@ func Run(cfg *config.Config) error {
 		return err
 	}
 
-	fmt.Println(f)
-
 	f, err = file.Sort(f)
 	if err != nil {
 		return err
