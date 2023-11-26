@@ -1,8 +1,6 @@
 package app
 
 import (
-	"fmt"
-
 	"github.com/gartyom/wb-practice/L2/develop/dev03/internal/pkg/config"
 	"github.com/gartyom/wb-practice/L2/develop/dev03/internal/pkg/file"
 )
@@ -18,7 +16,7 @@ func Run(cfg *config.Config) error {
 		return err
 	}
 
-	fmt.Println(f.FileData)
+	f.Print()
 
 	return nil
 }
