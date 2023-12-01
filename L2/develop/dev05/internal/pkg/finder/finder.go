@@ -32,17 +32,11 @@ func (finder *Finder) Find(file *file.File, pattern string) (*[]int, error) {
 		eq, _ := finder.matcher.Match(pattern, file.Data[i])
 
 		if eq {
-			if int(*finder.After) > 0 || int(*finder.Before) > 0 {
-				left, right := finder.getIdxsWindow(file, i, matched)
+			left, right := finder.getIdxsWindow(file, i, matched)
 
-				for j := left; j < right; j++ {
-					matched = append(matched, j)
-				}
-				i = min(right+1, len(file.Data)-1)
-			} else {
-				matched = append(matched, i)
+			for j := left; j < right; j++ {
+				matched = append(matched, j)
 			}
-
 		}
 
 	}
