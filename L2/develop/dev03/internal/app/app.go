@@ -1,8 +1,8 @@
 package app
 
 import (
-	"github.com/gartyom/wb-practice/L2/develop/dev03/internal/pkg/config"
-	"github.com/gartyom/wb-practice/L2/develop/dev03/internal/pkg/file"
+	"dev03/internal/pkg/config"
+	"dev03/internal/pkg/file"
 )
 
 func Run(cfg *config.Config) error {

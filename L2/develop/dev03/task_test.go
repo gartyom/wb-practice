@@ -1,6 +1,11 @@
 package main
 
-import "testing"
+import (
+	"flag"
+	"os"
+	"reflect"
+	"testing"
+)
 
 func Test_main(t *testing.T) {
 	tests := []struct {

@@ -1,5 +1,12 @@
 package main
 
+import (
+	"dev05/internal/app"
+	"dev05/internal/pkg/args"
+	"fmt"
+	"os"
+)
+
 /*
 === Утилита grep ===
 
@@ -19,5 +26,16 @@ package main
 */
 
 func main() {
+	args, err := args.Get()
+	if err != nil {
+		fmt.Fprintln(os.Stdout, err.Error())
+		os.Exit(1)
+	}
+
+	err = app.Run(args)
+	if err != nil {
+		fmt.Fprintln(os.Stdout, err.Error())
+		os.Exit(1)
+	}
 
 }

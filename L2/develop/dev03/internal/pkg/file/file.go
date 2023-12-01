@@ -8,7 +8,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/gartyom/wb-practice/L2/develop/dev03/internal/pkg/config"
+	"dev03/internal/pkg/config"
 )
 
 type File struct {

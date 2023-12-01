@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/gartyom/wb-practice/L2/develop/dev03/internal/app"
-	"github.com/gartyom/wb-practice/L2/develop/dev03/internal/pkg/config"
-	"github.com/gartyom/wb-practice/L2/develop/dev03/pkg/errs"
+	"dev03/internal/app"
+	"dev03/internal/pkg/config"
+	"dev03/pkg/errs"
 )
 
 /*
