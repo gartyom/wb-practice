@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/gartyom/wb-practice/L2/develop/dev03/internal/pkg/config"
+	"dev03/internal/pkg/config"
 )
 
 func Test_validate(t *testing.T) {
