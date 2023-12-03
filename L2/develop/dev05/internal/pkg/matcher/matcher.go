@@ -14,15 +14,15 @@ type Pipeline interface {
 	SetNext(p Pipeline)
 }
 
-func New(ignoreCase *bool, fixed *bool) *Matcher {
+func New(ignoreCase bool, fixed bool) *Matcher {
 	var first Pipeline
 
 	first = &Regexp{}
-	if *fixed {
+	if fixed {
 		first = &Fixed{}
 	}
 
-	if *ignoreCase {
+	if ignoreCase {
 		first = &Lower{next: first}
 	}
 

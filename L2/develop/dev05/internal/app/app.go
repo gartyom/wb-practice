@@ -2,25 +2,20 @@ package app
 
 import (
 	"dev05/internal/pkg/args"
-	"dev05/internal/pkg/file"
-	"dev05/internal/pkg/finder"
-	"dev05/internal/pkg/printer"
+	"dev05/internal/pkg/grep"
+	"dev05/internal/pkg/matcher"
+	"dev05/internal/pkg/qprinter"
+	"dev05/internal/pkg/queue"
 )
 
 func Run(args *args.Args) error {
-	file, err := file.New(args.FilePath)
+	qprinter := qprinter.New(args.Count, args.LineNum)
+	queue := queue.New(int(args.Before) + 1)
+	matcher := matcher.New(args.IgnoreCase, args.Fixed)
+	grep := grep.New(args, queue, qprinter, matcher)
+	err := grep.Process()
 	if err != nil {
 		return err
 	}
-
-	finder := finder.New(args.After, args.Before, args.IgnoreCase, args.Fixed)
-	idxs, err := finder.Find(file, args.Pattern)
-	if err != nil {
-		return err
-	}
-
-	printer := printer.New(args.Count, args.Invert, args.LineNum)
-	printer.Print(file, idxs)
-
 	return nil
 }
