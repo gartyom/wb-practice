@@ -17,9 +17,10 @@ type Pipeline interface {
 func New(ignoreCase bool, fixed bool) *Matcher {
 	var first Pipeline
 
-	first = &Regexp{}
 	if fixed {
 		first = &Fixed{}
+	} else {
+		first = &Regexp{}
 	}
 
 	if ignoreCase {

@@ -12,7 +12,7 @@ func Benchmark_main(b *testing.B) {
 	b.StopTimer()
 	for i := 0; i < b.N; i++ {
 		actualArgs := os.Args
-		os.Args = []string{"cmd", "a", "test.txt"}
+		os.Args = []string{"cmd", "-B=1000", "a", "task.go"}
 		b.StartTimer()
 
 		main()

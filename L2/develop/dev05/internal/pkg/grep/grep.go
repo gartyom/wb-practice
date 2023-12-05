@@ -40,9 +40,12 @@ func (g *Grep) Process() error {
 		return err
 	}
 
+	// i - line counter. j - counter for After(-A) flag
 	var i, j int
-	var qe queue.QElem
+
 	n := int(g.args.After)
+
+	var qe *queue.QElem
 	pattern := g.args.Pattern
 	scanner := bufio.NewScanner(in)
 	for scanner.Scan() {
@@ -56,8 +59,8 @@ func (g *Grep) Process() error {
 			qe = g.q.Append(text, i, g.args.Invert)
 		}
 
-		if qe.Print {
-			g.qp.Write(qe)
+		if qe != nil && qe.Print {
+			g.qp.Write(*qe)
 		}
 
 		if eq {
@@ -67,11 +70,21 @@ func (g *Grep) Process() error {
 
 	}
 
-	for i := 0; i < g.q.Length; i++ {
-		qe = g.q.Append("", 0, false)
-		if qe.Print {
-			g.qp.Write(qe)
+	// Print print all remaining elements
+	qe = g.q.First
+	for qe != nil {
+		if qe.Idx > 0 {
+			if g.q.FlagCounter > 0 {
+				qe.Print = g.q.Flag
+				g.q.FlagCounter -= 1
+			}
+			if qe.Print {
+				g.qp.Write(*qe)
+			}
+		} else {
+			g.q.FlagCounter -= 1
 		}
+		qe = qe.Next
 	}
 
 	g.qp.Flush()
