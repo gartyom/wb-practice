@@ -22,10 +22,11 @@ func New(count bool, lineNum bool) *QPrinter {
 		Count:   count,
 		LineNum: lineNum,
 	}
-	qp.WriterFunc = qp.write
 
 	if lineNum {
 		qp.WriterFunc = qp.writeLineNum
+	} else {
+		qp.WriterFunc = qp.write
 	}
 
 	if count {

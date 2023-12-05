@@ -4,41 +4,63 @@ type QElem struct {
 	Data  string
 	Print bool
 	Idx   int
+	next  *QElem
 }
 
 func newQelem(s string, i int, p bool) QElem {
-	return QElem{s, p, i}
+	return QElem{Data: s, Print: p, Idx: i, next: nil}
 }
 
 type Queue struct {
-	Data   []QElem
-	Length int
+	First     *QElem
+	Last      *QElem
+	Length    int
+	FlagCount int
+	Flag      bool
 }
 
 func New(Length int) *Queue {
-	array := make([]QElem, Length, Length)
+	first := newQelem("", 0, false)
+	last := &first
+	for i := 0; i < Length-1; i++ {
+		e := newQelem("", 0, false)
+		last.next = &e
+		last = &e
+	}
+
 	return &Queue{
-		Data:   array,
+		First:  &first,
+		Last:   last,
 		Length: Length,
 	}
 }
 
 func (q *Queue) Append(s string, i int, p bool) QElem {
-	first := q.Data[0]
-	for i := 0; i < q.Length-1; i++ {
-		q.Data[i] = q.Data[i+1]
+	if q.Length > 1 {
+		first := q.First
+
+		q.First = q.First.next
+		q.Last.next = first
+		q.Last = q.Last.next
+
+		q.Last.next = nil
 	}
 
-	q.Data[q.Length-1] = newQelem(s, i, p)
-
-	return first
+	fCopy := *q.Last
+	q.Last.Data = s
+	q.Last.Print = p
+	q.Last.Idx = i
+	if q.FlagCount > 0 {
+		if fCopy.Idx > 0 {
+			fCopy.Print = q.Flag
+		}
+		q.FlagCount -= 1
+	}
+	return fCopy
 
 }
 
 func (q *Queue) SetFlag(flag bool) {
-	for i := 0; i < q.Length; i++ {
-		if q.Data[i].Idx != 0 {
-			q.Data[i].Print = flag
-		}
-	}
+	q.FlagCount = q.Length
+	q.Flag = flag
 }
