@@ -1,10 +1,10 @@
 package queue
 
 type QElem struct {
-	Data  string // string to be printed.
-	Print bool   // flag whether or not we should print this element.
-	Idx   int    // string index.
-	Next  *QElem // next element.
+	Data  string
+	Print bool
+	Idx   int
+	Next  *QElem
 }
 
 func newQelem(s string, i int, p bool) QElem {
@@ -12,13 +12,10 @@ func newQelem(s string, i int, p bool) QElem {
 }
 
 type Queue struct {
-	// Pointer to first queue element.
 	First *QElem
 
-	// Pointer to last queue element.
 	Last *QElem
 
-	// Current length.
 	Length int
 
 	// FlagCounter is a counter for printing strings with
@@ -26,19 +23,16 @@ type Queue struct {
 	FlagCounter int
 	Flag        bool
 
-	// Max queue capacity. Length cannot be greater than this.
 	Cap int
 }
 
 func New(Cap int) *Queue {
-	first := newQelem("", 0, false)
-	last := &first
 
 	return &Queue{
-		First:  &first,
-		Last:   last,
+		First:  nil,
+		Last:   nil,
 		Cap:    Cap,
-		Length: 1,
+		Length: 0,
 	}
 }
 
@@ -50,8 +44,7 @@ func (q *Queue) Append(s string, i int, p bool) *QElem {
 		return nil
 	}
 
-	// If length is equal to capacity and cap > 1 put first
-	// element to the end so we dont allocate new memory.
+	// Put first element to the end so we dont create new QElem.
 	if q.Cap > 1 {
 		q.Last.Next = q.First
 		q.First = q.First.Next
@@ -78,8 +71,13 @@ func (q *Queue) Append(s string, i int, p bool) *QElem {
 
 func (q *Queue) appendNew(s string, i int, p bool) {
 	e := newQelem(s, i, p)
-	q.Last.Next = &e
-	q.Last = &e
+	if q.Length == 0 {
+		q.First = &e
+		q.Last = q.First
+	} else {
+		q.Last.Next = &e
+		q.Last = q.Last.Next
+	}
 	q.Length += 1
 }
 

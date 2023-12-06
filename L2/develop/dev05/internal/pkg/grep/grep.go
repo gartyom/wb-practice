@@ -26,16 +26,12 @@ func New(args *args.Args, q *queue.Queue, qp *qprinter.QPrinter, m *matcher.Matc
 }
 
 func (g *Grep) Process() error {
-	fp := g.args.FilePath
-	_, err := os.Stat(fp)
+	in, err := g.openFile()
 	if err != nil {
 		return err
 	}
 
-	in, _ := os.Open(fp)
-	defer in.Close()
-
-	_, err = g.m.Match(g.args.Pattern, "A")
+	err = g.validatePattern()
 	if err != nil {
 		return err
 	}
@@ -70,24 +66,39 @@ func (g *Grep) Process() error {
 
 	}
 
-	// Print print all remaining elements
-	qe = g.q.First
-	for qe != nil {
-		if qe.Idx > 0 {
-			if g.q.FlagCounter > 0 {
-				qe.Print = g.q.Flag
-				g.q.FlagCounter -= 1
-			}
-			if qe.Print {
-				g.qp.Write(*qe)
-			}
-		} else {
-			g.q.FlagCounter -= 1
-		}
-		qe = qe.Next
-	}
-
+	g.printRemainingElements()
 	g.qp.Flush()
 
 	return nil
+}
+
+func (g *Grep) openFile() (*os.File, error) {
+	fp := g.args.FilePath
+	_, err := os.Stat(fp)
+	if err != nil {
+		return nil, err
+	}
+
+	in, _ := os.Open(fp)
+
+	return in, nil
+}
+
+func (g *Grep) validatePattern() error {
+	_, err := g.m.Match(g.args.Pattern, "A")
+	return err
+}
+
+func (g *Grep) printRemainingElements() {
+	qe := g.q.First
+	for qe != nil {
+		if g.q.FlagCounter > 0 {
+			qe.Print = g.q.Flag
+			g.q.FlagCounter -= 1
+		}
+		if qe.Print {
+			g.qp.Write(*qe)
+		}
+		qe = qe.Next
+	}
 }

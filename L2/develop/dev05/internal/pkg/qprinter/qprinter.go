@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"dev05/internal/pkg/queue"
 	"fmt"
-	"os"
 )
 
 type QPrinter struct {
@@ -12,25 +11,25 @@ type QPrinter struct {
 	Counter    int
 	Count      bool
 	LineNum    bool
-	WriterFunc func(s string, i int)
+	WriterFunc func(p *QPrinter, s string, i int)
 }
 
-func New(count bool, lineNum bool) *QPrinter {
+func New(writer *bufio.Writer, count bool, lineNum bool) *QPrinter {
 	qp := &QPrinter{
-		Writer:  bufio.NewWriter(os.Stdout),
+		Writer:  writer,
 		Counter: 0,
 		Count:   count,
 		LineNum: lineNum,
 	}
 
 	if lineNum {
-		qp.WriterFunc = qp.writeLineNum
+		qp.WriterFunc = writeLineNum
 	} else {
-		qp.WriterFunc = qp.write
+		qp.WriterFunc = write
 	}
 
 	if count {
-		qp.WriterFunc = qp.count
+		qp.WriterFunc = cnt
 	}
 
 	return qp
@@ -38,7 +37,7 @@ func New(count bool, lineNum bool) *QPrinter {
 
 func (p *QPrinter) Write(e queue.QElem) {
 	s, i := e.Data, e.Idx
-	p.WriterFunc(s, i)
+	p.WriterFunc(p, s, i)
 }
 
 func (p *QPrinter) Flush() {
@@ -48,14 +47,14 @@ func (p *QPrinter) Flush() {
 	p.Writer.Flush()
 }
 
-func (p *QPrinter) write(s string, i int) {
+func write(p *QPrinter, s string, i int) {
 	p.Writer.WriteString(s)
 	p.Writer.WriteString("\n")
 }
-func (p *QPrinter) writeLineNum(s string, i int) {
+func writeLineNum(p *QPrinter, s string, i int) {
 	p.Writer.WriteString(fmt.Sprintf("%d:%s", i, s))
 	p.Writer.WriteString("\n")
 }
-func (p *QPrinter) count(s string, i int) {
+func cnt(p *QPrinter, s string, i int) {
 	p.Counter += 1
 }
