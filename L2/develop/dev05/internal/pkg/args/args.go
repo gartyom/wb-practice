@@ -20,8 +20,9 @@ type Args struct {
 
 func Get() (*Args, error) {
 	l := len(os.Args)
+
 	if l < 3 {
-		return &Args{}, errors.New("A pattern and file path arguments is required")
+		return &Args{}, errors.New("pattern and file path arguments is required")
 	}
 
 	FilePath := os.Args[l-1]

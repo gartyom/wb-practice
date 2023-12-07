@@ -30,7 +30,7 @@ func Test_New(t *testing.T) {
 				hQPrinter.Counter != tt.wQprinter.Counter ||
 				hQPrinter.Count != tt.wQprinter.Count ||
 				hQPrinter.LineNum != tt.wQprinter.LineNum ||
-				reflect.ValueOf(tt.wQprinter.WriterFunc).Pointer() != reflect.ValueOf(tt.wQprinter.WriterFunc).Pointer() {
+				reflect.ValueOf(tt.wQprinter.WriterFunc).Pointer() != reflect.ValueOf(hQPrinter.WriterFunc).Pointer() {
 				t.Errorf("New():\nwant: %v\nhave: %v", hQPrinter, tt.wQprinter)
 			}
 		})

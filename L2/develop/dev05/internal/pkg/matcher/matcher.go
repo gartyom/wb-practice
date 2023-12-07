@@ -6,7 +6,7 @@ import (
 )
 
 type Matcher struct {
-	pipline Pipeline
+	Pipeline Pipeline
 }
 
 type Pipeline interface {
@@ -31,7 +31,7 @@ func New(ignoreCase bool, fixed bool) *Matcher {
 }
 
 func (m *Matcher) Match(pattern string, s string) (bool, error) {
-	return m.pipline.Process(pattern, s)
+	return m.Pipeline.Process(pattern, s)
 }
 
 type Lower struct {
