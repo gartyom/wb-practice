@@ -15,7 +15,7 @@ func Run(args *args.Args) {
 
 	scOut := scanner.Scan(sc)
 	ctOut := cutter.Cut(scOut, args)
-	pOut := printer.Print(ctOut, writer)
+	prOut := printer.Print(ctOut, writer)
 
-	<-pOut
+	<-prOut
 }
