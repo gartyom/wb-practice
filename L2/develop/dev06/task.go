@@ -1,5 +1,12 @@
 package main
 
+import (
+	"dev06/internal/app"
+	"dev06/internal/pkg/args"
+	"fmt"
+	"os"
+)
+
 /*
 === Утилита cut ===
 
@@ -14,5 +21,11 @@ package main
 */
 
 func main() {
+	args, err := args.New()
+	if err != nil {
+		fmt.Fprintln(os.Stdout, err.Error())
+		os.Exit(1)
+	}
 
+	app.Run(args)
 }

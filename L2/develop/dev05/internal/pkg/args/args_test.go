@@ -33,8 +33,8 @@ func Test_Args(t *testing.T) {
 				os.Args = actualArgs
 				flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 			}()
-
 			os.Args = tt.Args
+
 			hCfg, hErr := Get()
 
 			if (hErr != nil) != tt.wErr {
