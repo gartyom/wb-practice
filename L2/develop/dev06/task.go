@@ -3,7 +3,7 @@ package main
 import (
 	"dev06/internal/app"
 	"dev06/internal/pkg/args"
-	"fmt"
+	"log"
 	"os"
 )
 
@@ -23,7 +23,7 @@ import (
 func main() {
 	args, err := args.New()
 	if err != nil {
-		fmt.Fprintln(os.Stdout, err.Error())
+		log.Fatal(err.Error())
 		os.Exit(1)
 	}
 
