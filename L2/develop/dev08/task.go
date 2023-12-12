@@ -1,5 +1,7 @@
 package main
 
+import "dev08/internal/app"
+
 /*
 === Взаимодействие с ОС ===
 
@@ -15,5 +17,5 @@ package main
 */
 
 func main() {
-
+	app.Run()
 }
