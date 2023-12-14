@@ -1,5 +1,7 @@
 package main
 
+import "net/http"
+
 /*
 === Утилита wget ===
 
@@ -9,5 +11,6 @@ package main
 */
 
 func main() {
+	resp, err := http.Get()
 
 }

@@ -49,7 +49,6 @@ func delegate(args []string) error {
 		}
 
 		return nil
-
 	default:
 		return errors.New(fmt.Sprintf("command not found: %s", args[0]))
 	}
