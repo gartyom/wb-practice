@@ -1,7 +1,7 @@
 package main
 
 import (
-	"dev11/app"
+	"dev11/internal/app"
 	"fmt"
 	"os"
 )
